@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
+
 const LineServiceSchema = new Schema(
   {
     serviceId: { type: Schema.Types.ObjectId, ref: "Service" },
@@ -18,49 +19,48 @@ const LinePartSchema = new Schema(
   { _id: false }
 );
 
-const MachineSnapshotSchema = new Schema({
-  name: String,
-  serialNo: String,
-  type: String,
-  lastServiceAt: Date,
-  active: Boolean,
-});
+const MachineSchema = new Schema(
+  {
+    id: { type: Schema.Types.ObjectId, ref: "Machine" },
+    name: String,
+    model: String,
+  },
+  { _id: false }
+);
 
-const RepairOrderSchema = new Schema(
+const MechanicSchema = new Schema(
+  {
+    id: { type: Schema.Types.ObjectId, ref: "Mechanic" },
+    name: String,
+    experienceYears: Number,
+    contact: String,
+  },
+  { _id: false }
+);
+
+const RepairSchema = new Schema(
   {
     number: { type: String, required: true, unique: true },
-
-    // references
     vehicleId: { type: Schema.Types.ObjectId, ref: "Vehicle", required: true },
     customerId: {
       type: Schema.Types.ObjectId,
       ref: "Customer",
       required: true,
     },
-    mechanicId: { type: Schema.Types.ObjectId, ref: "Mechanic" },
-    machineUsed: { type: Schema.Types.ObjectId, ref: "Machine" }, // ✅ ObjectId not String
 
-    // snapshots
-    customerSnapshot: { name: String, phone: String, email: String },
+    customerSnapshot: { name: String, phone: String },
     vehicleSnapshot: {
       vin: String,
       plate: String,
       make: String,
       model: String,
       year: Number,
-      mileage: Number,
     },
-    mechanicSnapshot: {
-      firstName: String,
-      lastName: String,
-      phone: String,
-      experienceYears: Number,
-    },
-    machineSnapshot: MachineSnapshotSchema,
 
-    // work data
     servicesPerformed: [LineServiceSchema],
     partsUsed: [LinePartSchema],
+    machineUsed: MachineSchema,
+    mechanic: MechanicSchema,
 
     date: { type: Date, default: Date.now },
     totalCost: { type: Number, default: 0 },
@@ -81,4 +81,5 @@ const RepairOrderSchema = new Schema(
   },
   { timestamps: true }
 );
-module.exports = model("RepairOrder", RepairOrderSchema, "repairorders");
+
+module.exports = model("Repair", RepairSchema, "repairs");

@@ -22,10 +22,11 @@ app.use("/api/inventories", require("./routes/inventories"));
 app.use("/api/services", require("./routes/services"));
 app.use("/api/categories", require("./routes/categories"));
 app.use("/api/machines", require("./routes/machines"));
-app.use("/api/repairorders", require("./routes/repairorders"));
+// app.use("/api/repairorders", require("./routes/repairorders"));
 app.use("/auth", require("./routes/auth"));
 app.use("/dashboard", require("./routes/dashboard"));
 app.use("/api/mechanics", require("./routes/machanics"));
+app.use("/api/repairs", require("./routes/repairs"));
 // Error handler
 app.use((err, req, res, next) => {
   console.error(err);

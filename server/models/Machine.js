@@ -3,7 +3,7 @@ const { Schema, model } = mongoose;
 
 const MachineSchema = new Schema(
   {
-    _id: { type: String, required: true }, // e.g., "mach001"
+    // _id: { type: String, required: true }, // e.g., "mach001"
     name: { type: String, required: true },
     brand: { type: String, required: true },
     model: { type: String, required: true },

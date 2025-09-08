@@ -28,26 +28,26 @@ router.post("/:id/add-mileage", async (req, res, next) => {
     next(err);
   }
 });
-app.get("/vehicles", async (req, res) => {
-  try {
-    const { search, page = 1, limit = 10 } = req.query;
+// app.get("/vehicles", async (req, res) => {
+//   try {
+//     const { search, page = 1, limit = 10 } = req.query;
 
-    let filter = {};
-    if (search) {
-      // Case-insensitive partial match for model field only
-      const regex = new RegExp(search, "i");
-      filter.model = regex;
-    }
+//     let filter = {};
+//     if (search) {
+//       // Case-insensitive partial match for model field only
+//       const regex = new RegExp(search, "i");
+//       filter.model = regex;
+//     }
 
-    const vehicles = await Vehicle.find(filter)
-      .skip((Number(page) - 1) * Number(limit))
-      .limit(Number(limit));
+//     const vehicles = await Vehicle.find(filter)
+//       .skip((Number(page) - 1) * Number(limit))
+//       .limit(Number(limit));
 
-    const total = await Vehicle.countDocuments(filter);
+//     const total = await Vehicle.countDocuments(filter);
 
-    res.json({ data: vehicles, total });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+//     res.json({ data: vehicles, total });
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// });
 module.exports = router;

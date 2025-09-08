@@ -3,6 +3,7 @@ const { Schema, model } = mongoose;
 
 const MechanicSchema = new Schema(
   {
+    id: { type: Schema.Types.ObjectId, ref: "Mechanic" },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     experienceYears: { type: Number, default: 0 },
