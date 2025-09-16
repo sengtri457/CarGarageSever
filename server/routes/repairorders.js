@@ -139,5 +139,19 @@ router.get("/by-customer/:customerId", async (req, res, next) => {
     next(err);
   }
 });
+// GET /repair-orders/:orderId
+router.get("/:orderId", async (req, res, next) => {
+  try {
+    const order = await RepairOrder.findById(req.params.orderId);
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.json(order);
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;

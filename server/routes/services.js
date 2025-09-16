@@ -3,7 +3,6 @@ const Service = require("../models/Service");
 
 const router = routerFactory(Service);
 
-// 📂 Group services by category
 router.get("/by-category/:categoryId", async (req, res, next) => {
   try {
     const services = await Service.find({ categoryId: req.params.categoryId });
