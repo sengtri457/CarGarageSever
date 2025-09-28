@@ -16,9 +16,33 @@ router.get("/", async (req, res, next) => {
       .populate("vehicleId")
       .populate("customerId")
       .populate("mechanicId")
+      .populate("machineUsed")
       .populate("servicesPerformed.serviceId")
       .populate("partsUsed.partId");
+    res.json(orders);
+  } catch (err) {
+    next(err);
+  }
+});
+router.get("/", async (req, res, next) => {
+  try {
+    const sort = req.query.sort === "asc" ? 1 : -1;
+    const search = req.query.search ? req.query.search.trim() : "";
 
+    let filter = {};
+    if (search) {
+      const regex = new RegExp(search, "i"); // case-insensitive
+      filter = {
+        $or: [
+          { "customerSnapshot.name": regex },
+          { number: regex },
+          { "vehicleSnapshot.plate": regex },
+        ],
+      };
+    }
+
+    const orders = await RepairOrder.find(filter).sort({ date: sort });
+    console.log(res);
     res.json(orders);
   } catch (err) {
     next(err);
@@ -121,8 +145,6 @@ router.post("/", async (req, res, next) => {
       0
     );
     const totalCost = serviceTotal + partsTotal;
-
-    // --- Build Repair Order ---
     const orderData = {
       number: `RO-${Date.now()}`,
       vehicleId: vehicle._id,
@@ -150,11 +172,16 @@ router.post("/", async (req, res, next) => {
             experienceYears: mechanic.experienceYears,
           }
         : undefined,
+      // machineSnapshot: machineDoc ? machineDoc.toObject() : undefined,
       machineSnapshot: machineDoc
         ? {
+            _id: machineDoc._id,
             name: machineDoc.name,
             serialNo: machineDoc.serialNo,
+            brand: machineDoc.brand,
+            model: machineDoc.model,
             type: machineDoc.type,
+            VehicleId: machineDoc.VehicleId,
             lastServiceAt: machineDoc.lastServiceAt,
             active: machineDoc.active,
           }

@@ -13,7 +13,6 @@ const Mechanic = require("../models/Machanic");
 router.post("/", async (req, res, next) => {
   const session = await mongoose.startSession();
   session.startTransaction();
-
   try {
     const {
       vehicleId,
@@ -149,6 +148,15 @@ router.get("/:orderId", async (req, res, next) => {
     }
 
     res.json(order);
+  } catch (err) {
+    next(err);
+  }
+});
+router.get("/", async (req, res, next) => {
+  try {
+    const sort = req.query.sort === "asc" ? 1 : -1; // default = desc
+    const orders = await RepairOrder.find().sort({ date: sort });
+    res.json(orders);
   } catch (err) {
     next(err);
   }

@@ -7,6 +7,9 @@ const MachineSchema = new Schema(
     name: { type: String, required: true },
     brand: { type: String, required: true },
     model: { type: String, required: true },
+    type: { type: String, required: true },
+    serialNo: { type: String, required: true },
+    VehicleId: { type: Schema.Types.ObjectId, ref: "Vehicle" },
     status: {
       type: String,
       enum: ["available", "in-use", "maintenance"],
