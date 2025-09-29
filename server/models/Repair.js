@@ -22,8 +22,25 @@ const LinePartSchema = new Schema(
 const MachineSchema = new Schema(
   {
     id: { type: Schema.Types.ObjectId, ref: "Machine" },
-    name: String,
-    model: String,
+    name: { type: String, required: true },
+    brand: { type: String, required: true },
+    model: { type: String, required: true },
+    type: { type: String, required: true },
+    serialNo: { type: String, required: true },
+    VehicleId: { type: Schema.Types.ObjectId, ref: "Vehicle" },
+    status: {
+      type: String,
+      enum: ["available", "in-use", "maintenance"],
+      default: "available",
+    },
+    maintenanceLog: [
+      {
+        _id: false,
+        date: { type: Date, required: true },
+        performedBy: { type: String, required: true },
+        notes: String,
+      },
+    ],
   },
   { _id: false }
 );

@@ -56,6 +56,7 @@ router.get("/:id", async (req, res, next) => {
       .populate("vehicleId")
       .populate("customerId")
       .populate("mechanicId")
+      .populate("machineUsed")
       .populate("servicesPerformed.serviceId")
       .populate("partsUsed.partId");
 
