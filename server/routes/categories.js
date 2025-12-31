@@ -1,5 +1,5 @@
 const routerFactory = require("./crudFactory"); // must point to crudFactory.js
-const Category = require("../models/category"); // must match the file name exactly
+const Category = require("../models/Category"); // must match the file name exactly
 
 const Service = require("../models/Service");
 
