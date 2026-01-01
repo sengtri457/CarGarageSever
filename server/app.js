@@ -4,8 +4,6 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const connect = require("./lib/db");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 
 const app = express();
@@ -39,8 +37,8 @@ app.use((err, req, res, next) => {
 connect(process.env.MONGO_URI)
   .then(() =>
     app.listen(process.env.PORT, () =>
-      console.log(`API running on port ${process.env.PORT}`)
-    )
+      console.log(`API running on port ${process.env.PORT}`),
+    ),
   )
   .catch((err) => {
     console.error("DB connect failed", err);
