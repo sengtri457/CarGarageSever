@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
-  res.send("Welcome to CarGarage API");
+    res.send("Welcome to CarGarage API");
 });
 
 // API routes
@@ -28,22 +28,19 @@ app.use("/auth", require("./routes/auth"));
 app.use("/dashboard", require("./routes/dashboard"));
 app.use("/api/mechanics", require("./routes/machanics"));
 app.use("/api/repairs", require("./routes/repairs"));
+app.use("/api/bakong", require("./routes/bakong.routes"));
 // Error handler
 app.use((err, req, res, next) => {
-  console.error(err);
-  res
-    .status(err.status || 500)
-    .json({ message: err.message || "Server error" });
+    console.error(err);
+    res.status(err.status || 500).json({
+        message: err.message || "Server error"
+    });
 });
 
 // Connect DB and start server
-connect(process.env.MONGO_URI)
-  .then(() =>
-    app.listen(process.env.PORT, () =>
-      console.log(`API running on port ${process.env.PORT}`),
-    ),
-  )
-  .catch((err) => {
+connect(process.env.MONGO_URI).then(() => app.listen(process.env.PORT, () => console.log(`API running on port ${
+    process.env.PORT
+}`),),).catch((err) => {
     console.error("DB connect failed", err);
     process.exit(1);
-  });
+});
